@@ -13,45 +13,47 @@ if (!defined('NV_MAINFILE')) {
 
 if (!defined('NV_ADMIN')) {
     $config = $module_config['popup'];
-    $funcid = explode(',', $config['funcid']);
-    if (in_array($module_info['funcs'][$op]['func_id'], $funcid)) {
+    if($config['active']){
+       $funcid = explode(',', $config['funcid']);
+        if (in_array($module_info['funcs'][$op]['func_id'], $funcid)) {
 
-        if ($config['active']) {
+            if ($config['active']) {
 
-            if (file_exists(NV_ROOTDIR . "/themes/" . $global_config['module_theme'] . "/modules/popup/main.tpl")) {
-                $block_theme = $global_config['module_theme'];
-            } elseif (file_exists(NV_ROOTDIR . "/themes/" . $global_config['site_theme'] . "/modules/popup/main.tpl")) {
-                $block_theme = $global_config['site_theme'];
-            } else {
-                $block_theme = "default";
-            }
+                if (file_exists(NV_ROOTDIR . "/themes/" . $global_config['module_theme'] . "/modules/popup/main.tpl")) {
+                    $block_theme = $global_config['module_theme'];
+                } elseif (file_exists(NV_ROOTDIR . "/themes/" . $global_config['site_theme'] . "/modules/popup/main.tpl")) {
+                    $block_theme = $global_config['site_theme'];
+                } else {
+                    $block_theme = "default";
+                }
 
-            $popup_content_file = NV_ROOTDIR . '/' . NV_FILES_DIR . '/popup_content.txt';
-            if (file_exists($popup_content_file)) {
-                $config['popup_content'] = file_get_contents($popup_content_file);
-            } else {
-                return '';
-            }
+                $popup_content_file = NV_ROOTDIR . '/' . NV_FILES_DIR . '/popup_content.txt';
+                if (file_exists($popup_content_file)) {
+                    $config['popup_content'] = file_get_contents($popup_content_file);
+                } else {
+                    return '';
+                }
 
-            $config['timer_open'] = $config['timer_open'] * 1000;
-            if (!empty($config['timer_close'])) {
-                $config['timer_close'] = $config['timer_close'] * 1000;
-            }
+                $config['timer_open'] = $config['timer_open'] * 1000;
+                if (!empty($config['timer_close'])) {
+                    $config['timer_close'] = $config['timer_close'] * 1000;
+                }
 
-            $xtpl = new XTemplate("main.tpl", NV_ROOTDIR . "/themes/" . $block_theme . "/modules/popup");
-            $xtpl->assign('TEMPLATE', $block_theme);
-            $xtpl->assign('ROW', $config);
+                $xtpl = new XTemplate("main.tpl", NV_ROOTDIR . "/themes/" . $block_theme . "/modules/popup");
+                $xtpl->assign('TEMPLATE', $block_theme);
+                $xtpl->assign('ROW', $config);
 
-            if (!empty($config['timer_close'])) {
-                $xtpl->parse('main.timer_close');
-            }
+                if (!empty($config['timer_close'])) {
+                    $xtpl->parse('main.timer_close');
+                }
 
-            if ($config['develop_mode']) {
+                if ($config['develop_mode']) {
+                    $xtpl->parse('main');
+                }
+
                 $xtpl->parse('main');
+                $contents .= $xtpl->text('main');
             }
-
-            $xtpl->parse('main');
-            $contents .= $xtpl->text('main');
-        }
+        } 
     }
 }
