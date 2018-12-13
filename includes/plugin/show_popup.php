@@ -11,10 +11,10 @@ if (!defined('NV_MAINFILE')) {
     die('Stop!!!');
 }
 
-if (!defined('NV_ADMIN')) {
+if (!defined('NV_ADMIN') && isset($site_mods['popup'])) {
     $config = $module_config['popup'];
-    if($config['active']){
-       $funcid = explode(',', $config['funcid']);
+    if ($config['active']) {
+        $funcid = explode(',', $config['funcid']);
         if (in_array($module_info['funcs'][$op]['func_id'], $funcid)) {
 
             if ($config['active']) {
@@ -54,6 +54,6 @@ if (!defined('NV_ADMIN')) {
                 $xtpl->parse('main');
                 $contents .= $xtpl->text('main');
             }
-        } 
+        }
     }
 }
