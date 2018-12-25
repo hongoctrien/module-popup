@@ -52,7 +52,7 @@ if (!defined('NV_ADMIN') && isset($site_mods['popup'])) {
                 }
 
                 $xtpl->parse('main');
-                $contents .= $xtpl->text('main');
+                $my_footer .= $xtpl->text('main');
             }
         }
     }
