@@ -51,9 +51,7 @@ if ($nv_Request->isset_request('save', 'post')) {
             $sth->execute();
         }
 
-        if (!empty($popup['popup_content'])) {
-            file_put_contents($popup_content_file, $popup['popup_content']);
-        }
+        file_put_contents($popup_content_file, $popup['popup_content']);
 
         $nv_Cache->delMod('settings');
 
